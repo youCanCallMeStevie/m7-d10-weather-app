@@ -1,4 +1,6 @@
 import React from "react";
+import "../Alert/Alert.css"
+
 interface AlertProps {
   message: string;
   onClose: () => void;
