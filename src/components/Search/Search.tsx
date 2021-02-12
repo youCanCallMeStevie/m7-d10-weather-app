@@ -24,6 +24,8 @@ function Search({ title }: SearchProps) {
     setCity("");
   };
 
+
+
   return (
 
 <div className="search-container">

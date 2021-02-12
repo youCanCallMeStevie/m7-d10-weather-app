@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "./App.css";
 import { RootState } from "./store";
@@ -7,7 +7,8 @@ import Weather from "./components/Weather/Weather";
 import { setAlert } from "./store/actions/alertActions";
 import { setError } from "./store/actions/weatherActions";
 import Alert from "./components/Alert/Alert";
-
+import Loader from "./Loader/Loader"
+import {getWeather, setLoading} from "./store/actions/weatherActions"
 
 function App() {
   const dispatch = useDispatch();
@@ -15,12 +16,19 @@ function App() {
   const loading = useSelector((state: RootState) => state.weather.loading);
   const error = useSelector((state: RootState) => state.weather.error);
   const alertMsg = useSelector((state: RootState) => state.alert.message);
+  
+  useEffect(() =>{
+    dispatch(setLoading());
+dispatch(getWeather("London"))
+  },[])
+  
   return (
   <div className="App">
 <Search title = "Enter city name & press search button"/>
-{loading? <h2 className="is-size-3 py-2">Loading..</h2> : weatherData && <Weather data={weatherData}/>}
 {alertMsg && <Alert message={alertMsg} onClose={()=> dispatch(setAlert(""))}/>}
 {error && <Alert message={error} onClose={()=> dispatch(setError())}/>}
+
+{loading? <Loader />: weatherData && <Weather data={weatherData}/>}
 
   </div>
   );
